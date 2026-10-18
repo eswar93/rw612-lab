@@ -1,6 +1,6 @@
 # rw612-lab
 
-[![build](https://github.com/eswar93/rw612-lab/actions/workflows/build.yml/badge.svg)](https://github.com/eswar93/rw612-lab/actions/workflows/build.yml)
+[![01-project build](https://github.com/eswar93/rw612-lab/actions/workflows/build.yml/badge.svg)](https://github.com/eswar93/rw612-lab/actions/workflows/build.yml)
 
 My hobby lab for learning embedded firmware on the **NXP FRDM-RW612**, one small project at a time.
 
