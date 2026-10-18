@@ -1,5 +1,7 @@
 # rw612-lab
 
+[![build](https://github.com/YOUR-GITHUB-USER/YOUR-REPO-NAME/actions/workflows/build.yml/badge.svg)](https://github.com/YOUR-GITHUB-USER/YOUR-REPO-NAME/actions/workflows/build.yml)
+
 My hobby lab for learning embedded firmware on the **NXP FRDM-RW612**, one small project at a time.
 
 > **Honest disclaimer:** I have ~11 years in embedded, but I'm new to this chip, to Zephyr, and to most of the AI/IoT side of things.
@@ -39,6 +41,7 @@ Project 3 is deliberately vague for now. I'll shape it after 1 and 2 teach me wh
 ```
 rw612-lab/
 ├── README.md
+├── .github/workflows/build.yml  # CI build
 ├── common/                      # RTOS-agnostic C code I want to reuse
 ├── projects/
 │   ├── 01-blinky-zephyr/
@@ -47,6 +50,7 @@ rw612-lab/
 ├── tools/                       # helper scripts
 └── docs/
     ├── setup-windows.md         # how I set up my machine
+    ├── ci.md                    # how the GitHub Actions build works
     ├── images/                  # photos and screenshots
     └── diagrams/                # flowcharts
 ```

@@ -1,0 +1,64 @@
+name: build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:   # lets me start a run by hand from the Actions tab
+
+env:
+  # The exact Zephyr commit I built with locally (from `git describe --tags`:
+  # v4.5.0-rc2-76-ga915b2f1267). Change this when I update Zephyr on my PC.
+  ZEPHYR_REF: a915b2f1267
+  BOARD: frdm_rw612
+
+jobs:
+  blinky-zephyr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repo
+        uses: actions/checkout@v4
+        with:
+          path: app
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ninja-build gperf device-tree-compiler
+
+      - name: Get Zephyr at the pinned commit
+        run: |
+          mkdir ws
+          git clone --filter=blob:none https://github.com/zephyrproject-rtos/zephyr ws/zephyr
+          git -C ws/zephyr checkout "$ZEPHYR_REF"
+          pip install west
+          west init -l ws/zephyr
+          cd ws
+          west update --narrow --fetch-opt=--depth=1
+          west zephyr-export
+          west packages pip --install
+
+      - name: Install Zephyr SDK (ARM toolchain only)
+        working-directory: ws
+        run: west sdk install --toolchains arm-zephyr-eabi
+
+      - name: Build blinky
+        working-directory: ws
+        run: |
+          west build -b "$BOARD" \
+            "$GITHUB_WORKSPACE/app/projects/01-blinky-zephyr" \
+            -d "$GITHUB_WORKSPACE/build" -p auto
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: blinky-zephyr-${{ env.BOARD }}
+          path: |
+            build/zephyr/zephyr.bin
+            build/zephyr/zephyr.elf
+            build/zephyr/zephyr.hex
+          if-no-files-found: warn
