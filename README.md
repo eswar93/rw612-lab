@@ -1,7 +1,5 @@
 # rw612-lab
 
-[![build](https://github.com/eswar93/rw612-lab/actions/workflows/build.yml/badge.svg)](https://github.com/eswar93/rw612-lab/actions/workflows/build.yml)
-
 My hobby lab for learning embedded firmware on the **NXP FRDM-RW612**, one small project at a time.
 
 > **Honest disclaimer:** I have ~11 years in embedded, but I'm new to this chip, to Zephyr, and to most of the AI/IoT side of things.
@@ -28,11 +26,11 @@ Same workshop, two management styles. That's the experiment.
 
 ## The projects
 
-| # | Project | RTOS | Status | What I want to learn |
-|---|---------|------|--------|----------------------|
-| 1 | [Blink LED](projects/01-blinky-zephyr) | Zephyr | ✅ working | The Zephyr workflow end to end: build, flash, device tree, Kconfig |
-| 2 | [Read on-board temperature](projects/02-temp-freertos) | FreeRTOS | 🚧 in progress | NXP SDK, FreeRTOS tasks and queues, reading an I2C sensor |
-| 3 | [ML / MQTT telemetry](projects/03-ml-mqtt-telemetry) | TBD | 💭 idea | MQTT, storing telemetry in a DB, training a model (maybe with CUDA), running or serving it |
+| # | Project | RTOS | Status | Build (CI) | What I want to learn |
+|---|---------|------|--------|------------|----------------------|
+| 1 | [Blink LED](projects/01-blinky-zephyr) | Zephyr | ✅ working | [![build](https://github.com/eswar93/rw612-lab/actions/workflows/project-01-blinky-zephyr.yml/badge.svg)](https://github.com/eswar93/rw612-lab/actions/workflows/project-01-blinky-zephyr.yml) | The Zephyr workflow end to end: build, flash, device tree, Kconfig |
+| 2 | [Read on-board temperature](projects/02-temp-freertos) | FreeRTOS | ✅ working | [![build](https://github.com/eswar93/rw612-lab/actions/workflows/project-02-temp-freertos.yml/badge.svg)](https://github.com/eswar93/rw612-lab/actions/workflows/project-02-temp-freertos.yml) | NXP SDK, FreeRTOS tasks and queues, reading an I2C sensor |
+| 3 | [ML / MQTT telemetry](projects/03-ml-mqtt-telemetry) | TBD | 💭 idea | no CI yet | MQTT, storing telemetry in a DB, training a model (maybe with CUDA), running or serving it |
 
 Project 3 is deliberately vague for now. I'll shape it after 1 and 2 teach me what the board is good at.
 
@@ -41,7 +39,7 @@ Project 3 is deliberately vague for now. I'll shape it after 1 and 2 teach me wh
 ```
 rw612-lab/
 ├── README.md
-├── .github/workflows/build.yml  # CI build
+├── .github/workflows/           # one CI workflow per project
 ├── common/                      # RTOS-agnostic C code I want to reuse
 ├── projects/
 │   ├── 01-blinky-zephyr/
@@ -51,7 +49,7 @@ rw612-lab/
 └── docs/
     ├── setup-windows.md         # how I set up my machine (Zephyr)
     ├── setup-windows-nxp.md     # NXP SDK setup (project 2)
-    ├── ci.md                    # how the GitHub Actions build works
+    ├── ci.md                    # how the GitHub Actions builds work
     ├── images/                  # photos and screenshots
     └── diagrams/                # flowcharts
 ```

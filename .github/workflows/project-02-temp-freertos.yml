@@ -1,0 +1,89 @@
+name: Project 2 - temperature (FreeRTOS)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:   # lets me start a run by hand from the Actions tab
+
+env:
+  # Same SDK tag I use on my PC (C:\dev\mcuxpresso-sdk\mcuxsdk\MCUX_VERSION says 25.12.00).
+  SDK_TAG: v25.12.00
+  BOARD: frdmrw612            # NXP's board name, not Zephyr's (frdm_rw612)
+  ARM_GCC_VERSION: 14.2.rel1  # same Arm GNU toolchain as on my PC
+
+jobs:
+  temp-freertos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repo
+        uses: actions/checkout@v4
+        with:
+          path: app
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Create a Python virtual environment
+        run: |
+          python -m venv "$GITHUB_WORKSPACE/venv"
+          echo "$GITHUB_WORKSPACE/venv/bin" >> "$GITHUB_PATH"
+          echo "VIRTUAL_ENV=$GITHUB_WORKSPACE/venv" >> "$GITHUB_ENV"
+
+      - name: Install build tools (west, CMake, Ninja)
+        run: pip install west cmake ninja jsonschema
+
+      - name: Install the Arm GNU toolchain
+        run: |
+          url="https://developer.arm.com/-/media/Files/downloads/gnu/${ARM_GCC_VERSION}/binrel/arm-gnu-toolchain-${ARM_GCC_VERSION}-x86_64-arm-none-eabi.tar.xz"
+          curl -fsSL "$url" -o gcc.tar.xz
+          mkdir -p "$HOME/armgcc"
+          tar -xJf gcc.tar.xz -C "$HOME/armgcc" --strip-components=1
+          # NXP's build wants the folder ABOVE bin, same as on my PC
+          echo "ARMGCC_DIR=$HOME/armgcc" >> "$GITHUB_ENV"
+          "$HOME/armgcc/bin/arm-none-eabi-gcc" --version | head -1
+
+      - name: Restore the NXP SDK from cache
+        id: sdk-cache
+        uses: actions/cache@v4
+        with:
+          path: mcuxpresso-sdk
+          key: mcuxsdk-${{ env.SDK_TAG }}-${{ env.BOARD }}-v1
+
+      - name: Get the NXP SDK (this board only)
+        if: steps.sdk-cache.outputs.cache-hit != 'true'
+        run: |
+          west init -m https://github.com/nxp-mcuxpresso/mcuxsdk-manifests.git --mr "$SDK_TAG" mcuxpresso-sdk
+          cd mcuxpresso-sdk
+          west update_board --set board "$BOARD"
+
+      - name: Install the SDK's own Python requirements
+        run: |
+          if [ -f mcuxpresso-sdk/mcuxsdk/scripts/requirements.txt ]; then
+            pip install -r mcuxpresso-sdk/mcuxsdk/scripts/requirements.txt
+          fi
+
+      - name: Register the SDK for find_package(McuxSDK)
+        working-directory: mcuxpresso-sdk/mcuxsdk
+        run: west mcuxsdk-export
+
+      - name: Build project 2
+        working-directory: mcuxpresso-sdk/mcuxsdk
+        run: |
+          app="$GITHUB_WORKSPACE/app/projects/02-temp-freertos"
+          west build -b "$BOARD" "$app" \
+            -d "$GITHUB_WORKSPACE/build" \
+            "-DCONF_FILE=$app/prj.conf" \
+            --config=debug --toolchain=armgcc
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: temp-freertos-${{ env.BOARD }}
+          path: |
+            build/app.elf
+            build/app.hex
+            build/app.bin
+            build/output.map
+          if-no-files-found: error
