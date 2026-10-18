@@ -1,6 +1,6 @@
 # rw612-lab
 
-[![build](https://github.com/YOUR-GITHUB-USER/YOUR-REPO-NAME/actions/workflows/build.yml/badge.svg)](https://github.com/YOUR-GITHUB-USER/YOUR-REPO-NAME/actions/workflows/build.yml)
+[![build](https://github.com/eswar93/rw612-lab/actions/workflows/build.yml/badge.svg)](https://github.com/eswar93/rw612-lab/actions/workflows/build.yml)
 
 My hobby lab for learning embedded firmware on the **NXP FRDM-RW612**, one small project at a time.
 
@@ -74,6 +74,7 @@ Step by step notes are in [docs/setup-windows.md](docs/setup-windows.md).
 ## Things I got wrong (running list)
 
 - **Wrong terminal, wrong activate script.** I ran `activate.bat` while in PowerShell, so `west` used my global Python and could not find `jsonschema`. In PowerShell it is `Activate.ps1`.
+- **Same mistake twice.** I ran `west zephyr-export` before installing Zephyr's Python packages, first on my PC and then in GitHub Actions. Both times: `No module named 'jsonschema'`. Install the packages first.
 - **Trusting an LED that was already blinking.** The board blinked green before I flashed anything, so I could not tell whether my firmware was running. Changing the delay to something very different proved it.
 
 ## Useful links I keep going back to

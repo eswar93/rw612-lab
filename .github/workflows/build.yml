@@ -39,8 +39,9 @@ jobs:
           west init -l ws/zephyr
           cd ws
           west update --narrow --fetch-opt=--depth=1
-          west zephyr-export
+          # Python packages first: west zephyr-export needs them (e.g. jsonschema)
           west packages pip --install
+          west zephyr-export
 
       - name: Install Zephyr SDK (ARM toolchain only)
         working-directory: ws

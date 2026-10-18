@@ -30,4 +30,4 @@ Actions tab -> **build** -> **Run workflow**.
 
 ## Problems I hit
 
-- _(empty for now)_
+- **First run failed with `No module named 'jsonschema'`.** Same mistake as on my PC: `west zephyr-export` ran before `west packages pip --install`. Swapped the order.

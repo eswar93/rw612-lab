@@ -45,9 +45,11 @@ pip install west
 west init zephyrproject
 cd zephyrproject
 west update
-west zephyr-export
 west packages pip --install
+west zephyr-export
 ```
+
+Order matters: `west zephyr-export` imports Python packages that `west packages pip --install` provides, so install them first.
 
 If PowerShell refuses to run the activate script, run this once and retry:
 
@@ -95,6 +97,7 @@ Change `SLEEP_TIME_MS` in `src/main.c` to something very different (for example 
 | Symptom | Cause | Fix |
 |---|---|---|
 | `ModuleNotFoundError: No module named 'jsonschema'` on `west zephyr-export` | The venv was not active, so west used my global Python | Activate the venv with the PowerShell script (`Activate.ps1`, not `activate.bat`), then run `west packages pip --install` |
+| `ModuleNotFoundError: No module named 'jsonschema'` (same error, second time, in CI) | I ran `west zephyr-export` before installing Zephyr's Python packages | Run `west packages pip --install` first, then `west zephyr-export` |
 | The LED looked unchanged after flashing | The board already blinked the same LED with its factory firmware | Change the blink rate to something obviously different |
 
 ## Not needed yet
