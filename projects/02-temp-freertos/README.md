@@ -1,6 +1,6 @@
 # 02 - On-board temperature (FreeRTOS)
 
-**Status:** first version written, **not yet tested on my board** (update this line after the first run).
+**Status:** builds and links; flashing and first run still to be confirmed on my board (update this line after the first run).
 
 Two FreeRTOS tasks and a queue read the board's P3T1755 temperature sensor once per second and print the value on the serial console.
 

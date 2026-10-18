@@ -18,4 +18,12 @@ mcux_add_include(
         .
 )
 
-mcux_convert_binary(BINARY ${APPLICATION_BINARY_DIR}/${MCUX_SDK_PROJECT_NAME}.bin)
+# NXP's mcux_convert_binary() only works for repository-style examples. With find_package(McuxSDK)
+# the SDK is a library and our program is the target "app", so we make the flash files ourselves.
+# west flash (J-Link runner) looks for build/app.hex or build/app.bin.
+add_custom_command(TARGET app POST_BUILD
+    COMMAND ${CMAKE_OBJCOPY} -O ihex   $<TARGET_FILE:app> $<TARGET_FILE_DIR:app>/app.hex
+    COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:app> $<TARGET_FILE_DIR:app>/app.bin
+    COMMENT "Creating app.hex and app.bin"
+    VERBATIM
+)

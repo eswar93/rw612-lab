@@ -81,6 +81,8 @@ Step by step notes are in [docs/setup-windows.md](docs/setup-windows.md).
 - **Two toolchains are not interchangeable.** Zephyr SDK's `arm-zephyr-eabi` is not the `arm-none-eabi` that NXP's SDK expects. `ARMGCC_DIR` must point at the folder *above* `bin`.
 - **`west build -p always` on a build folder that never finished.** The cleaner could not find the blueprint. Delete the folder instead.
 - **Trusting half a sentence from a manual.** The manual's overview calls the sensor "I3C", but section 2.5 says it is wired as I2C on FlexComm 2. Read the whole section.
+- **A half-opened FreeRTOS drawer.** A freestanding NXP project does not inherit the settings NXP's own examples get, so `FreeRTOS.h` was not found. I found the missing `prj.conf` lines by comparing the `.config` of a working example with mine.
+- **A helper that only works for one kind of project.** `mcux_convert_binary` silently warned and produced nothing for a freestanding app, so `west flash` found no `app.hex`. Read warnings, even when the build "succeeds".
 - **Cloning all of NXP's SDK.** A plain `west update` pulls gigabytes. There is a board-only update.
 
 ## Useful links I keep going back to

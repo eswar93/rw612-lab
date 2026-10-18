@@ -83,4 +83,7 @@ If `west build` complains that the build directory belongs to another applicatio
 | `There is no board variable.cmake file ... frdm_rw612` | Zephyr's board name is not NXP's | Use `frdmrw612` |
 | `ARMGCC_DIR` set but still not found | I had pointed it at the `bin` folder | Point it at the folder above `bin` |
 | `i3c ... master_read_sensor_p3t1755` fails to build | That example has no FRDM-RW612 port. The board wires the sensor as I2C on FC2, not I3C | Use the I2C driver (project 2) |
+| `FreeRTOS.h: No such file or directory` | A freestanding app does not inherit NXP's example-level FreeRTOS settings. My first `prj.conf` only opened the `cm33_non_trustzone` variant | Configure NXP's `freertos_queue` with `--cmake-only` into a scratch folder, compare its `.config` with mine, copy the missing `CONFIG_..freertos..` lines into `prj.conf` (kernel, heap_4, generated config, extension, config, and a few `configXXX` switches) |
+| `mcux_convert_binary ... McuxSDK is library type`, then `west flash` says no `app.hex` or `app.bin` | That helper only works for repository-style examples | `CMakeLists.txt` creates `app.hex` and `app.bin` itself with `objcopy` after linking |
+| `.\tools\nxp-build.ps1 cannot be loaded because running scripts is disabled` | PowerShell execution policy | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once (the VS Code tasks bypass it) |
 | `where.exe arm-none-eabi-gcc` found nothing right after install | The terminal was opened before the install | Open a new terminal |
