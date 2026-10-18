@@ -28,7 +28,7 @@ Same workshop, two management styles. That's the experiment.
 
 | # | Project | RTOS | Status | What I want to learn |
 |---|---------|------|--------|----------------------|
-| 1 | [Blink LED](projects/01-blinky-zephyr) | Zephyr | 🚧 in progress | The Zephyr workflow end to end: build, flash, device tree, Kconfig |
+| 1 | [Blink LED](projects/01-blinky-zephyr) | Zephyr | ✅ working | The Zephyr workflow end to end: build, flash, device tree, Kconfig |
 | 2 | [Read on-board temperature](projects/02-temp-freertos) | FreeRTOS | 📝 planned | NXP SDK + FreeRTOS tasks, reading an I2C/I3C sensor |
 | 3 | [ML / MQTT telemetry](projects/03-ml-mqtt-telemetry) | TBD | 💭 idea | MQTT, storing telemetry in a DB, training a model (maybe with CUDA), running or serving it |
 
@@ -69,7 +69,8 @@ Step by step notes are in [docs/setup-windows.md](docs/setup-windows.md).
 
 ## Things I got wrong (running list)
 
-- _nothing yet, which is suspicious_
+- **Wrong terminal, wrong activate script.** I ran `activate.bat` while in PowerShell, so `west` used my global Python and could not find `jsonschema`. In PowerShell it is `Activate.ps1`.
+- **Trusting an LED that was already blinking.** The board blinked green before I flashed anything, so I could not tell whether my firmware was running. Changing the delay to something very different proved it.
 
 ## Useful links I keep going back to
 
