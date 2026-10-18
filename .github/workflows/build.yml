@@ -25,6 +25,12 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Create a Python virtual environment
+        run: |
+          python -m venv "$GITHUB_WORKSPACE/venv"
+          echo "$GITHUB_WORKSPACE/venv/bin" >> "$GITHUB_PATH"
+          echo "VIRTUAL_ENV=$GITHUB_WORKSPACE/venv" >> "$GITHUB_ENV"
+
       - name: Install system packages
         run: |
           sudo apt-get update

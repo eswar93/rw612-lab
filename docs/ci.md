@@ -9,7 +9,7 @@ Every push builds the Zephyr blinky from a clean machine. If it goes green, the 
 File: `.github/workflows/build.yml`
 
 1. **Check out this repo** into a folder called `app`.
-2. **Install Python and a few system tools** (Ninja, gperf, dtc).
+2. **Install Python, create a virtual environment, and install a few system tools** (Ninja, gperf, dtc).
 3. **Get Zephyr at one pinned commit.** It is the same commit I built with on my PC (`ZEPHYR_REF`), so CI and my machine cook the same dish. Then `west update` fetches the matching modules.
 4. **Install the Zephyr SDK**, ARM toolchain only, to keep it quick.
 5. **Build** `projects/01-blinky-zephyr` for `frdm_rw612`.
@@ -31,3 +31,4 @@ Actions tab -> **build** -> **Run workflow**.
 ## Problems I hit
 
 - **First run failed with `No module named 'jsonschema'`.** Same mistake as on my PC: `west zephyr-export` ran before `west packages pip --install`. Swapped the order.
+- **Second failure: `Running pip install outside of a virtual environment`.** Zephyr's `west packages pip --install` refuses to install into the system Python, same idea as on my PC. Added a venv step; its `bin` folder goes on `PATH` through `$GITHUB_PATH` so the later steps use it.
