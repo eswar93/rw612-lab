@@ -32,6 +32,10 @@ FRDM-RW612 temperature demo (FreeRTOS, P3T1755 on FC2 I2C)
 #1  Temperature: 24.437 C
 ```
 
+## Why this project needs `flash_config.c`
+
+On this chip the boot ROM reads a small configuration table from the start of flash (0x08000000) before it can run any program. NXP's examples get that table from a board file. A freestanding project has to add that file itself, and into the executable, not into a library. Details in the setup doc.
+
 ## What I still need to check
 
 - [ ] Compare the readings with NXP's `temperature_measurement` demo and a room thermometer.
