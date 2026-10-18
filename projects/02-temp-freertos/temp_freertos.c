@@ -66,12 +66,12 @@ int main(void)
     i2c_master_config_t i2c_config;
 
     BOARD_InitHardware();
+    PRINTF("\r\nFRDM-RW612 temperature demo (FreeRTOS, P3T1755 on FC2 I2C)\r\n");
 
     /* Default I2C master settings (standard mode, 100 kHz) are fine for a thermometer */
     I2C_MasterGetDefaultConfig(&i2c_config);
     I2C_MasterInit(TEMP_I2C_BASE, &i2c_config, TEMP_I2C_CLOCK_HZ);
-
-    PRINTF("\r\nFRDM-RW612 temperature demo (FreeRTOS, P3T1755 on FC2 I2C)\r\n");
+    PRINTF("I2C ready\r\n");
 
     sample_queue = xQueueCreate(QUEUE_LENGTH, sizeof(temp_sample_t));
     if (sample_queue == NULL)
