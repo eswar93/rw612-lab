@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "ms-vscode.cpptools",
+    "ms-vscode.cmake-tools",
+    "nxp.mcuxpresso-for-vscode",
+    "marus25.cortex-debug"
+  ]
+}

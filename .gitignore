@@ -1,0 +1,26 @@
+# Build output
+build/
+build-*/
+*.elf
+*.bin
+*.hex
+*.map
+
+# Zephyr / west workspace lives OUTSIDE this repo, but just in case
+.west/
+zephyr/
+modules/
+bootloader/
+
+# Python
+.venv/
+__pycache__/
+
+# VS Code (keep shared settings, ignore personal ones)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json
+
+# OS junk
+Thumbs.db
+.DS_Store
