@@ -31,7 +31,7 @@ Same workshop, two management styles. That's the experiment.
 | # | Project | RTOS | Status | What I want to learn |
 |---|---------|------|--------|----------------------|
 | 1 | [Blink LED](projects/01-blinky-zephyr) | Zephyr | ✅ working | The Zephyr workflow end to end: build, flash, device tree, Kconfig |
-| 2 | [Read on-board temperature](projects/02-temp-freertos) | FreeRTOS | 📝 planned | NXP SDK + FreeRTOS tasks, reading an I2C/I3C sensor |
+| 2 | [Read on-board temperature](projects/02-temp-freertos) | FreeRTOS | 🚧 in progress | NXP SDK, FreeRTOS tasks and queues, reading an I2C sensor |
 | 3 | [ML / MQTT telemetry](projects/03-ml-mqtt-telemetry) | TBD | 💭 idea | MQTT, storing telemetry in a DB, training a model (maybe with CUDA), running or serving it |
 
 Project 3 is deliberately vague for now. I'll shape it after 1 and 2 teach me what the board is good at.
@@ -47,9 +47,10 @@ rw612-lab/
 │   ├── 01-blinky-zephyr/
 │   ├── 02-temp-freertos/
 │   └── 03-ml-mqtt-telemetry/
-├── tools/                       # helper scripts
+├── tools/                       # helper scripts (nxp-build.ps1)
 └── docs/
-    ├── setup-windows.md         # how I set up my machine
+    ├── setup-windows.md         # how I set up my machine (Zephyr)
+    ├── setup-windows-nxp.md     # NXP SDK setup (project 2)
     ├── ci.md                    # how the GitHub Actions build works
     ├── images/                  # photos and screenshots
     └── diagrams/                # flowcharts
@@ -76,6 +77,11 @@ Step by step notes are in [docs/setup-windows.md](docs/setup-windows.md).
 - **Wrong terminal, wrong activate script.** I ran `activate.bat` while in PowerShell, so `west` used my global Python and could not find `jsonschema`. In PowerShell it is `Activate.ps1`.
 - **Same mistake twice.** I ran `west zephyr-export` before installing Zephyr's Python packages, first on my PC and then in GitHub Actions. Both times: `No module named 'jsonschema'`. Install the packages first.
 - **Trusting an LED that was already blinking.** The board blinked green before I flashed anything, so I could not tell whether my firmware was running. Changing the delay to something very different proved it.
+- **Zephyr's board name is not NXP's board name.** `frdm_rw612` in Zephyr, `frdmrw612` in NXP's SDK. The error message said "check for a typo", and it was one, just not mine.
+- **Two toolchains are not interchangeable.** Zephyr SDK's `arm-zephyr-eabi` is not the `arm-none-eabi` that NXP's SDK expects. `ARMGCC_DIR` must point at the folder *above* `bin`.
+- **`west build -p always` on a build folder that never finished.** The cleaner could not find the blueprint. Delete the folder instead.
+- **Trusting half a sentence from a manual.** The manual's overview calls the sensor "I3C", but section 2.5 says it is wired as I2C on FlexComm 2. Read the whole section.
+- **Cloning all of NXP's SDK.** A plain `west update` pulls gigabytes. There is a board-only update.
 
 ## Useful links I keep going back to
 

@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "NXP: build project 2 (clean)",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/nxp-build.ps1", "-Project", "02-temp-freertos", "-Clean"],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "NXP: build and flash project 2",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/nxp-build.ps1", "-Project", "02-temp-freertos", "-Flash"],
+      "problemMatcher": []
+    }
+  ]
+}
