@@ -1,7 +1,9 @@
 # rw612-lab
 
 My hobby lab for learning embedded firmware on the **NXP FRDM-RW612**, one small project at a time.
-
+ [![build](https://github.com/eswar93/rw612-lab/actions/workflows/project-01-blinky-zephyr.yml/badge.svg)](https://github.com/eswar93/rw612-lab/actions/workflows/project-01-blinky-zephyr.yml)
+ [![build](https://github.com/eswar93/rw612-lab/actions/workflows/project-02-temp-freertos.yml/badge.svg)](https://github.com/eswar93/rw612-lab/actions/workflows/project-02-temp-freertos.yml)
+ 
 > **Honest disclaimer:** I have ~11 years in embedded, but I'm new to this chip, to Zephyr, and to most of the AI/IoT side of things.
 > This repo is my notebook. Expect wrong turns, notes-to-self, and things I fix later.
 
