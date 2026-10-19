@@ -10,6 +10,7 @@ Every push and every pull request builds **every project** from a clean machine 
 |---|---|---|
 | 1 - blinky (Zephyr) | `.github/workflows/project-01-blinky-zephyr.yml` | `blinky-zephyr-frdm_rw612` |
 | 2 - temperature (FreeRTOS) | `.github/workflows/project-02-temp-freertos.yml` | `temp-freertos-frdmrw612` |
+| 3 - telemetry (Zephyr, C++17) | `.github/workflows/project-03-telemetry-zephyr.yml` | `ml-mqtt-telemetry-frdm_rw612` |
 
 One file per project, so each project gets its own badge in the main README. A new project means one new workflow file and one new row in the README table.
 
@@ -23,6 +24,10 @@ One file per project, so each project gets its own badge in the main README. A n
 6. **Upload** `zephyr.bin`, `.elf` and `.hex`.
 
 When I update Zephyr locally: run `git -C C:\dev\zephyrproject\zephyr describe --tags` and copy the commit part (after the `g`) into `ZEPHYR_REF`.
+
+## Project 3: Zephyr, C++17
+
+Same recipe as project 1, pointed at `projects/03-ml-mqtt-telemetry`. Once the app uses Wi-Fi, the job also needs `west blobs fetch hal_nxp` (the Wi-Fi firmware blob).
 
 ## Project 2: NXP SDK + FreeRTOS
 

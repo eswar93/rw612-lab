@@ -5,15 +5,84 @@
       "label": "NXP: build project 2 (clean)",
       "type": "shell",
       "command": "powershell",
-      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/nxp-build.ps1", "-Project", "02-temp-freertos", "-Clean"],
-      "group": { "kind": "build", "isDefault": true },
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/tools/nxp-build.ps1",
+        "-Project",
+        "02-temp-freertos",
+        "-Clean"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
       "problemMatcher": []
     },
     {
       "label": "NXP: build and flash project 2",
       "type": "shell",
       "command": "powershell",
-      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}/tools/nxp-build.ps1", "-Project", "02-temp-freertos", "-Flash"],
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/tools/nxp-build.ps1",
+        "-Project",
+        "02-temp-freertos",
+        "-Flash"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Zephyr: build project 3 (clean)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/tools/zephyr-build.ps1",
+        "-Project",
+        "03-ml-mqtt-telemetry",
+        "-Clean"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Zephyr: build and flash project 3",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/tools/zephyr-build.ps1",
+        "-Project",
+        "03-ml-mqtt-telemetry",
+        "-Flash"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Zephyr: build and flash project 1",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/tools/zephyr-build.ps1",
+        "-Project",
+        "01-blinky-zephyr",
+        "-Flash"
+      ],
       "problemMatcher": []
     }
   ]

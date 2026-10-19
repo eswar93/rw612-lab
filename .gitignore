@@ -24,3 +24,8 @@ __pycache__/
 # OS junk
 Thumbs.db
 .DS_Store
+
+# Local secrets (Wi-Fi password, broker credentials). Never commit these.
+secrets.conf
+**/secrets.conf
+*.secret

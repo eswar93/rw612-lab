@@ -32,7 +32,7 @@ Same workshop, two management styles. That's the experiment.
 |---|---------|------|--------|------------|----------------------|
 | 1 | [Blink LED](projects/01-blinky-zephyr) | Zephyr | ✅ working | [![build](https://github.com/eswar93/rw612-lab/actions/workflows/project-01-blinky-zephyr.yml/badge.svg)](https://github.com/eswar93/rw612-lab/actions/workflows/project-01-blinky-zephyr.yml) | The Zephyr workflow end to end: build, flash, device tree, Kconfig |
 | 2 | [Read on-board temperature](projects/02-temp-freertos) | FreeRTOS | ✅ working | [![build](https://github.com/eswar93/rw612-lab/actions/workflows/project-02-temp-freertos.yml/badge.svg)](https://github.com/eswar93/rw612-lab/actions/workflows/project-02-temp-freertos.yml) | NXP SDK, FreeRTOS tasks and queues, reading an I2C sensor |
-| 3 | [ML / MQTT telemetry](projects/03-ml-mqtt-telemetry) | TBD | 💭 idea | no CI yet | MQTT, storing telemetry in a DB, training a model (maybe with CUDA), running or serving it |
+| 3 | [ML / MQTT telemetry](projects/03-ml-mqtt-telemetry) | Zephyr (C++17) | 🚧 in progress | [![build](https://github.com/eswar93/rw612-lab/actions/workflows/project-03-telemetry-zephyr.yml/badge.svg)](https://github.com/eswar93/rw612-lab/actions/workflows/project-03-telemetry-zephyr.yml) | MQTT, storing telemetry in a DB, training a model (maybe with CUDA), running or serving it |
 
 Project 3 is deliberately vague for now. I'll shape it after 1 and 2 teach me what the board is good at.
 
@@ -47,7 +47,7 @@ rw612-lab/
 │   ├── 01-blinky-zephyr/
 │   ├── 02-temp-freertos/
 │   └── 03-ml-mqtt-telemetry/
-├── tools/                       # helper scripts (nxp-build.ps1)
+├── tools/                       # helper scripts (nxp-build.ps1, zephyr-build.ps1)
 └── docs/
     ├── setup-windows.md         # how I set up my machine (Zephyr)
     ├── setup-windows-nxp.md     # NXP SDK setup (project 2)
@@ -81,6 +81,7 @@ Step by step notes are in [docs/setup-windows.md](docs/setup-windows.md).
 - **Two toolchains are not interchangeable.** Zephyr SDK's `arm-zephyr-eabi` is not the `arm-none-eabi` that NXP's SDK expects. `ARMGCC_DIR` must point at the folder *above* `bin`.
 - **`west build -p always` on a build folder that never finished.** The cleaner could not find the blueprint. Delete the folder instead.
 - **Trusting half a sentence from a manual.** The manual's overview calls the sensor "I3C", but section 2.5 says it is wired as I2C on FlexComm 2. Read the whole section.
+- **`wifi connect` without the key type.** The Zephyr shell took my password but did not know which lock the network uses. Scan first, read the security column, then pass the matching `-k`.
 - **A half-opened FreeRTOS drawer.** A freestanding NXP project does not inherit the settings NXP's own examples get, so `FreeRTOS.h` was not found. I found the missing `prj.conf` lines by comparing the `.config` of a working example with mine.
 - **A helper that only works for one kind of project.** `mcux_convert_binary` silently warned and produced nothing for a freestanding app, so `west flash` found no `app.hex`. Read warnings, even when the build "succeeds".
 - **A build that links is not a build that boots.** Project 2 compiled, flashed and then said nothing. Comparing the section tables of NXP's working example and mine showed an empty `.flash_config` block that the boot ROM needs. Comparing a working build with a broken one beats staring at the broken one.
