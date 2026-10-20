@@ -17,3 +17,8 @@
 		reg = <0x48>;
 	};
 };
+
+/* Same as Zephyr's wifi shell sample for this board (Apache-2.0, NXP) */
+&standby {
+	status = "okay";
+};

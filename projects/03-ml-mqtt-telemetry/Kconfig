@@ -1,0 +1,31 @@
+mainmenu "Project 3 - telemetry over Wi-Fi and MQTT"
+
+config APP_DEVICE_ID
+	string "Device ID used in the MQTT client ID and in every message"
+	default "rw612-01"
+
+config APP_WIFI_SSID
+	string "Wi-Fi network name (leave empty to skip networking)"
+	default ""
+
+config APP_WIFI_PSK
+	string "Wi-Fi password"
+	default ""
+
+config APP_WIFI_SECURITY
+	int "Wi-Fi security type (same numbers as 'wifi connect -k': 1 = WPA2-PSK, 5 = SAE-AUTO, 10 = WPA-Auto-Personal)"
+	default 1
+
+config APP_MQTT_BROKER_ADDR
+	string "MQTT broker IPv4 address (leave empty to skip networking)"
+	default ""
+
+config APP_MQTT_BROKER_PORT
+	int "MQTT broker port"
+	default 1883
+
+config APP_MQTT_TOPIC
+	string "MQTT topic to publish to"
+	default "rw612/telemetry"
+
+source "Kconfig.zephyr"

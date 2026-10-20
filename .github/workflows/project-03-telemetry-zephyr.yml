@@ -53,6 +53,10 @@ jobs:
         working-directory: ws
         run: west sdk install --toolchains arm-zephyr-eabi
 
+      - name: Fetch the Wi-Fi firmware blob
+        working-directory: ws
+        run: west blobs fetch hal_nxp
+
       - name: Build project 3
         working-directory: ws
         run: |

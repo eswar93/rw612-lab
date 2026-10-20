@@ -5,5 +5,7 @@ project(ml_mqtt_telemetry)
 target_sources(app PRIVATE
     src/main.cpp
     src/temp_sensor.cpp
+    src/wifi_link.cpp
+    src/mqtt_publisher.cpp
 )
 target_include_directories(app PRIVATE src)

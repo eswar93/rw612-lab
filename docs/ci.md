@@ -27,7 +27,7 @@ When I update Zephyr locally: run `git -C C:\dev\zephyrproject\zephyr describe -
 
 ## Project 3: Zephyr, C++17
 
-Same recipe as project 1, pointed at `projects/03-ml-mqtt-telemetry`. Once the app uses Wi-Fi, the job also needs `west blobs fetch hal_nxp` (the Wi-Fi firmware blob).
+Same recipe as project 1, pointed at `projects/03-ml-mqtt-telemetry`, plus `west blobs fetch hal_nxp` for the Wi-Fi firmware blob. CI has no `secrets.conf`, so the firmware it builds contains no Wi-Fi credentials.
 
 ## Project 2: NXP SDK + FreeRTOS
 

@@ -36,7 +36,15 @@ Push-Location (Join-Path $Workspace "zephyr")
 try {
     if ($Clean -and (Test-Path $BuildDir)) { Remove-Item -Recurse -Force $BuildDir }
 
-    west build -b $Board $App -d $BuildDir -p auto
+    # Local secrets (Wi-Fi password, broker address) live in a git-ignored secrets.conf next to the project
+    $Secrets = Join-Path $App "secrets.conf"
+    $Extra = @()
+    if (Test-Path $Secrets) {
+        Write-Host "Using local secrets.conf (the firmware will contain the Wi-Fi password: do not share it)"
+        $Extra = @("--", ("-DEXTRA_CONF_FILE=" + ($Secrets -replace '\\', '/')))
+    }
+
+    west build -b $Board $App -d $BuildDir -p auto @Extra
     if ($LASTEXITCODE -ne 0) { throw "west build failed (exit code $LASTEXITCODE)" }
 
     if ($Flash) {
