@@ -86,6 +86,12 @@ and one JSON line per second in the broker terminal.
 - No TLS and no username/password yet. Home LAN only.
 - No real-time clock: messages carry the uptime, and the PC adds the arrival time.
 
+## Problems I hit
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `Wi-Fi connect timed out` while the hotspot shows the board as connected | I registered one net_mgmt callback for Wi-Fi events and IPv4 events together. Zephyr matches a callback against one event layer, so it matched neither and my code never heard "connected" | Two callbacks: one for the Wi-Fi events, one for the IPv4 event |
+
 ## Notes from M0 (Wi-Fi)
 
 - `west blobs fetch hal_nxp` is needed for Wi-Fi and Bluetooth.

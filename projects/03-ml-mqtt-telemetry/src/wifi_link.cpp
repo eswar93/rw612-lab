@@ -22,10 +22,12 @@ bool WifiLink::start()
     k_sem_init(&connect_sem_, 0, 1);
     k_sem_init(&ip_sem_, 0, 1);
 
-    net_mgmt_init_event_callback(&callback_, &WifiLink::on_event,
-                                 NET_EVENT_WIFI_CONNECT_RESULT | NET_EVENT_WIFI_DISCONNECT_RESULT |
-                                     NET_EVENT_IPV4_ADDR_ADD);
-    net_mgmt_add_event_callback(&callback_);
+    net_mgmt_init_event_callback(&wifi_callback_, &WifiLink::on_event,
+                                 NET_EVENT_WIFI_CONNECT_RESULT | NET_EVENT_WIFI_DISCONNECT_RESULT);
+    net_mgmt_add_event_callback(&wifi_callback_);
+
+    net_mgmt_init_event_callback(&ipv4_callback_, &WifiLink::on_event, NET_EVENT_IPV4_ADDR_ADD);
+    net_mgmt_add_event_callback(&ipv4_callback_);
     return true;
 }
 
@@ -105,11 +107,14 @@ void WifiLink::on_event(net_mgmt_event_callback *cb, uint64_t event, net_if *ifa
         const auto *status  = reinterpret_cast<const wifi_status *>(cb->info);
         self->connect_status_ = (status != nullptr) ? status->status : -1;
         self->link_up_        = (self->connect_status_ == 0);
+        printk("Wi-Fi connect result: status %d\n", self->connect_status_);
         k_sem_give(&self->connect_sem_);
     } else if (event == NET_EVENT_WIFI_DISCONNECT_RESULT) {
+        printk("Wi-Fi disconnected\n");
         self->link_up_ = false;
         self->has_ip_  = false;
     } else if (event == NET_EVENT_IPV4_ADDR_ADD) {
+        printk("IPv4 address acquired\n");
         self->has_ip_ = true;
         k_sem_give(&self->ip_sem_);
     }

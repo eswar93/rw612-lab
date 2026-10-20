@@ -27,7 +27,10 @@ private:
     static WifiLink *instance_;
 
     net_if *iface_ = nullptr;
-    net_mgmt_event_callback callback_{};
+    /* Zephyr matches a callback against ONE event layer: Wi-Fi events and IPv4 events need
+     * separate callbacks (one combined mask matches neither). */
+    net_mgmt_event_callback wifi_callback_{};
+    net_mgmt_event_callback ipv4_callback_{};
     k_sem connect_sem_{};
     k_sem ip_sem_{};
     volatile bool link_up_      = false;
