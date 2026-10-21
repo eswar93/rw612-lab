@@ -1,0 +1,2 @@
+# paho-mqtt 2.x changed its callback API (CallbackAPIVersion), so stay on 2.x
+paho-mqtt>=2.0,<3

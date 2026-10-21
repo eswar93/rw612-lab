@@ -29,6 +29,8 @@ When I update Zephyr locally: run `git -C C:\dev\zephyrproject\zephyr describe -
 
 Same recipe as project 1, pointed at `projects/03-ml-mqtt-telemetry`, plus `west blobs fetch hal_nxp` for the Wi-Fi firmware blob. CI has no `secrets.conf`, so the firmware it builds contains no Wi-Fi credentials.
 
+The same workflow file has a second job, `collector-tests`, that runs the Python collector's unit tests (`python -m unittest discover -s tests`) on the PC side of project 3. If either job fails, the project 3 badge turns red.
+
 ## Project 2: NXP SDK + FreeRTOS
 
 A different kitchen: NXP's SDK has its own recipe books and toolbox, so this job is set up differently.

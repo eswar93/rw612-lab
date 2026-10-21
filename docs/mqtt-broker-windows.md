@@ -23,6 +23,17 @@ New-NetFirewallRule -DisplayName "Mosquitto MQTT 1883" -Direction Inbound -Proto
 
 If Windows lists the home Wi-Fi as a Public network, the rule does not apply. Switch the network to Private.
 
+## Hotspots: set the network to Private
+
+A phone hotspot (or the laptop's own hotspot) is usually marked **Public** by Windows, and the firewall rule above only applies to Private networks. Symptom: Wi-Fi works, but the board's MQTT connect fails with `-116` (a timeout). Check and fix, as administrator:
+
+```powershell
+Get-NetConnectionProfile
+Set-NetConnectionProfile -InterfaceAlias "Wi-Fi" -NetworkCategory Private
+```
+
+Only do this for a network I control. Also: the PC's address on a hotspot can change when it reconnects, so run `ipconfig` again if the board starts timing out.
+
 ## Test it
 
 Two terminals in `C:\Program Files\mosquitto`:

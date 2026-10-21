@@ -29,3 +29,9 @@ Thumbs.db
 secrets.conf
 **/secrets.conf
 *.secret
+
+# Collector database files
+*.db
+*.sqlite
+*.sqlite3
+projects/03-ml-mqtt-telemetry/pc/data/

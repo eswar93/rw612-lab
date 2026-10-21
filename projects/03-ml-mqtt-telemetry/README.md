@@ -1,6 +1,6 @@
 # 03 - ML / MQTT telemetry (Zephyr, C++17)
 
-**Status:** M0 (Wi-Fi) and M1 (sensor in C++) work. M2 (Wi-Fi + MQTT publish) is written, **not yet tested on my board** (update after the first run).
+**Status:** M0 (Wi-Fi), M1 (sensor in C++) and M2 (Wi-Fi + MQTT publish) work on my board. M3 (the PC-side collector, in [`pc/`](pc)) is written, **not yet run against the real board** (update after the first run).
 
 **Analogy:** the board is a weather station on my desk. It measures, sends reports over Wi-Fi (MQTT) to a mailbox on my PC, a clerk files them in a database, and a student (the model) studies the archive and learns what a normal day looks like, so it can raise a hand when something is off.
 
@@ -14,7 +14,7 @@
 | M0 | Wi-Fi on the FRDM-RW612 with Zephyr's wifi shell sample | Zephyr networking, binary blobs |
 | M1 | Read the P3T1755 with Zephyr's sensor API, in C++17 | Devicetree overlays, C++ in Zephyr |
 | M2 | Connect to Wi-Fi from the app and publish readings over MQTT to a broker on my PC | MQTT topics and QoS, Zephyr's MQTT client |
-| M3 | A Python service stores the readings in a database | Schema design, time series |
+| M3 | A Python service stores the readings in a database (SQLite first, maybe PostgreSQL after) | Schema design, time series, MQTT from Python |
 | M4 | Train an anomaly detector on the stored data (with CUDA) | The training workflow |
 | M5 | Run the model: first on the PC (alerts back over MQTT), then maybe on the chip | Deployment, memory budgets |
 
@@ -91,6 +91,8 @@ and one JSON line per second in the broker terminal.
 | Symptom | Cause | Fix |
 |---|---|---|
 | `Wi-Fi connect timed out` while the hotspot shows the board as connected | I registered one net_mgmt callback for Wi-Fi events and IPv4 events together. Zephyr matches a callback against one event layer, so it matched neither and my code never heard "connected" | Two callbacks: one for the Wi-Fi events, one for the IPv4 event |
+
+| `MQTT connect failed`, `mqtt_connect failed: -116` (timeout) with Wi-Fi up | Windows marked my phone-hotspot network as Public, and my firewall rule only applies to Private networks. A silent firewall gives a timeout, while a wrong address gives an immediate "refused" | `Set-NetConnectionProfile -InterfaceAlias "Wi-Fi" -NetworkCategory Private` (only for my own hotspot) |
 
 ## Notes from M0 (Wi-Fi)
 
